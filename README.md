@@ -1,5 +1,8 @@
 # datastone-test
 
+This APP was made with the object to exchange amounts of money between currencies. To use the service, all you need is inform the desired currency and the origin one that will have the value converted.
+The project was created in Python using Flask as framework para API RESTful. REDIS was choosen to hold the currencies exchange rates objectiving more performance during requests.
+
 ## Getting Started
 
 > **Important** : In order to use the service, a third party service is required. You have to get an API Key [here](https://apilayer.com/marketplace/exchangerates_data-api?_gl=1*tgrwx*_ga*NTA1NTk3MDM4LjE2NzE1NDUzMzk.*_ga_HGV43FGGVM*MTY3MTU3MDIzMi4zLjAuMTY3MTU3MDIzMi42MC4wLjA.#pricing) and then get access to [Exchangerates API](https://exchangeratesapi.io/documentation/) services.
@@ -87,3 +90,7 @@
         ```bash
         docker compose rm -f --stop && docker compose up -d ds-redis && docker compose up ds-api && docker compose logs -f ds-api
         ```
+
+## Canveats
+
+1. Even that the original instructions pointed Ethereum as one of the currencies, the third party API does not offer this exchange rate. There was other service that offered the rate as an additional request parameters (including all others crypto currencies), but diffent when compared the choosen API, was a paid service.
