@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    ds-pgsql:
+        image: postgres:15
+        hostname: ds-pgsql
+        environment:
+        - POSTGRES_USER=$POSTGRES_USER
+        - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+        - POSTGRES_DB=$POSTGRES_DB
+        volumes:
+        - pgsql-data:/var/lib/postgresql/data
+        networks:
+        - ds-network
+
+    ds-redis:
+        image: redis:7
+        container_name: ds-redis
+        hostname: ds-redis
+        restart: always
+        ports:
+        - $REDIS_PORT:$REDIS_PORT
+        volumes:
+        - redis-cache:/data
+        networks:
+        - ds-network
+
+    ds-api:
+        container_name: ds-api
+        hostname: ds-api
+        build:
+            context: .
+        working_dir: /app
+        command: ./ds-api-venv/bin/python ds_api/manage.py runserver $API_HOST:$API_PORT
+        tty: true
+        env_file: .env
+        environment:
+        - PYTHONPATH=/app
+        ports:
+        - $API_PORT:$API_PORT
+        volumes:
+        - .:/app:delegated
+        - home:/home/$LOCAL_USER_NAME
+        networks:
+        - ds-network
+
+volumes:
+    pgsql-data:
+    redis-cache:
+    home:
+
+networks:
+    ds-network:
