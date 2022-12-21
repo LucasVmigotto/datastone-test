@@ -108,3 +108,21 @@ class TestWebApiApp(TestCase):
         assert 'data' in loads(response.data)
         assert 'message' in loads(response.data)
         assert match(r'^Successfully exchanged', loads(response.data)['message'])
+
+    @patch("app.redis")
+    @patch("controllers.exchange.requests")
+    def test_convert_update_failed_request(self, redis_mock, request_mock):
+        redis_mock.get.return_value = str(int(mktime((datetime.now() - timedelta(hours=2)).timetuple())))
+        response_mock = Mock(status_code=500)
+        redis_mock.get.return_value = response_mock
+        response = self.app.post(
+            '/convert',
+            query_string={
+                'from': 'USD',
+                'to': 'BRL',
+                'amount': 100.50
+            }
+        )
+        assert response.status_code == 500
+        assert 'message' in loads(response.data)
+        assert 'Internal server error' == loads(response.data)['message']
