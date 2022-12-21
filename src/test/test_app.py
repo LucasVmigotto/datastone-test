@@ -26,6 +26,19 @@ class TestWebApiApp(TestCase):
         assert 'message' in loads(response.data)
         assert match(r'^Please inform the following args', loads(response.data)['message'])
 
+    def test_validation_query_param_from_equal_to(self):
+        response = self.app.post(
+            '/convert',
+            query_string={
+                'to': 'BRL',
+                'from': 'BRL',
+                'amount': 100.50
+            }
+        )
+        assert 409 == response.status_code
+        assert 'message' in loads(response.data)
+        assert 'Please, choose the second currecy different that the first' == loads(response.data)['message']
+
     def test_convert_brl_to_usd(self):
         response = self.app.post(
             '/convert',
