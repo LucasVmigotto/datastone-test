@@ -91,6 +91,8 @@ The project was created in Python using Flask as framework para API RESTful. RED
         docker compose rm -f --stop && docker compose up -d ds-redis && docker compose up ds-api && docker compose logs -f ds-api
         ```
 
+* You can use the [Postman](https://www.postman.com/) collection in `docs/postman.json` to test the `convert` endpoint aswell the third party service.
+
 ## Testing
 
 1. Start the API Docker Compose Service

@@ -7,73 +7,12 @@
 	},
 	"item": [
 		{
-			"name": "3rd Party",
-			"item": [
-				{
-					"name": "LTS Rates",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "apikey",
-								"value": "{{EXCHANGE_API_KEY}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{EXCHANGE_API_URL}}/latest?base=USD&symbols=USD,BRL,EUR,BTC,ETH",
-							"host": [
-								"{{EXCHANGE_API_URL}}"
-							],
-							"path": [
-								"latest"
-							],
-							"query": [
-								{
-									"key": "base",
-									"value": "USD"
-								},
-								{
-									"key": "symbols",
-									"value": "USD,BRL,EUR,BTC,ETH"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "LTS Rates Copy",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "apikey",
-								"value": "{{EXCHANGE_API_KEY}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{EXCHANGE_API_URL}}/symbols",
-							"host": [
-								"{{EXCHANGE_API_URL}}"
-							],
-							"path": [
-								"symbols"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "/convert",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{API_HTTP}}://{{API_HOST}}:{{API_PORT}}/convert?from=BTC&to=BRL&amount=1",
+					"raw": "{{API_HTTP}}://{{API_HOST}}:{{API_PORT}}/convert?from=BRL&to=USD&amount=100",
 					"protocol": "{{API_HTTP}}",
 					"host": [
 						"{{API_HOST}}"
@@ -85,18 +24,51 @@
 					"query": [
 						{
 							"key": "from",
-							"value": "BTC",
-							"description": "Possible values: USD, BRL, EUR, BTC"
-						},
-						{
-							"key": "to",
 							"value": "BRL",
 							"description": "Possible values: USD, BRL, EUR, BTC"
 						},
 						{
+							"key": "to",
+							"value": "USD",
+							"description": "Possible values: USD, BRL, EUR, BTC"
+						},
+						{
 							"key": "amount",
-							"value": "1",
+							"value": "100",
 							"description": "Value to be converted"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3rd Party Exchange Currencies Rates",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "apikey",
+						"value": "{{EXCHANGE_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{EXCHANGE_API_URL}}/latest?base=USD&symbols=USD,BRL,EUR,BTC,ETH",
+					"host": [
+						"{{EXCHANGE_API_URL}}"
+					],
+					"path": [
+						"latest"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "USD"
+						},
+						{
+							"key": "symbols",
+							"value": "USD,BRL,EUR,BTC,ETH"
 						}
 					]
 				}
