@@ -14,6 +14,18 @@ class TestWebApiApp(TestCase):
     def setUp(self):
         self.app = web_api.test_client()
 
+    def test_validation_query_params_missing(self):
+        response = self.app.post(
+            '/convert',
+            query_string={
+                'from': 'BRL',
+                'amount': 100.50
+            }
+        )
+        assert 409 == response.status_code
+        assert 'message' in loads(response.data)
+        assert match(r'^Please inform the following args', loads(response.data)['message'])
+
     def test_convert_brl_to_usd(self):
         response = self.app.post(
             '/convert',
