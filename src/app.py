@@ -17,6 +17,9 @@ app = Flask(__name__)
 # Create REDIS connection
 redis = redis.Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'))
 
+if redis.get('exchange:latest') is None:  # pragma: no cover
+    redis.set('exchange:latest', 0)
+
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s][%(levelname)s]: %(message)s',
