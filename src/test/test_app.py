@@ -4,9 +4,11 @@ __author__ = "Lucas Vidor Migotto"
 __date__ = "$Dez 21, 2022 11:03:00 AM$"
 
 
+from time import time
 from re import match
 from json import loads
 from unittest import TestCase
+from unittest.mock import patch
 from app import app as web_api
 
 
@@ -39,7 +41,9 @@ class TestWebApiApp(TestCase):
         assert 'message' in loads(response.data)
         assert 'Please, choose the second currecy different that the first' == loads(response.data)['message']
 
-    def test_convert_brl_to_usd(self):
+    @patch("app.redis")
+    def test_convert_notupdate_brl_to_usd(self, redis_mock):
+        redis_mock.get.return_value = str(int(time()))
         response = self.app.post(
             '/convert',
             query_string={
@@ -53,7 +57,9 @@ class TestWebApiApp(TestCase):
         assert 'message' in loads(response.data)
         assert match(r'^Successfully exchanged', loads(response.data)['message'])
 
-    def test_convert_usd_to_brl(self):
+    @patch("app.redis")
+    def test_convert_notupdate_usd_to_brl(self, redis_mock):
+        redis_mock.get.return_value = str(int(time()))
         response = self.app.post(
             '/convert',
             query_string={
