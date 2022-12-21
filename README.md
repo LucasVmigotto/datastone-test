@@ -91,6 +91,44 @@ The project was created in Python using Flask as framework para API RESTful. RED
         docker compose rm -f --stop && docker compose up -d ds-redis && docker compose up ds-api && docker compose logs -f ds-api
         ```
 
+## Testing
+
+1. Start the API Docker Compose Service
+
+    ```bash
+    docker compose run --rm ds-api bash
+    ```
+
+2. Active the virtual env
+
+    ```bash
+    source ds-api-venv/bin/activate
+    ```
+
+3. Run the tests cases
+
+    ```bash
+    python -m coverage run -m unittest -v src/test/test_app.py
+    ```
+
+    * Collect code coverage
+
+        ```bash
+        python -m coverage run -m unittest -v src/test/test_app.py
+        ```
+
+    * Generate HTML with the code coverage info
+
+        ```bash
+        python -m coverage html
+        ```
+
+    * One liner
+
+        ```bash
+        python -m coverage run -m unittest -v src/test/test_app.py && python -m coverage html
+        ```
+
 ## Canveats
 
 1. Even that the original instructions pointed Ethereum as one of the currencies, the third party API does not offer this exchange rate. There was other service that offered the rate as an additional request parameters (including all others crypto currencies), but diffent when compared the choosen API, was a paid service.
