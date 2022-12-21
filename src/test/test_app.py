@@ -28,7 +28,7 @@ class TestWebApiApp(TestCase):
                 'amount': 100.50
             }
         )
-        assert 409 == response.status_code
+        assert response.status_code == 409
         assert 'message' in loads(response.data)
         assert match(r'^Please inform the following args', loads(response.data)['message'])
 
@@ -41,7 +41,7 @@ class TestWebApiApp(TestCase):
                 'amount': 100.50
             }
         )
-        assert 409 == response.status_code
+        assert response.status_code == 409
         assert 'message' in loads(response.data)
         assert 'Please, choose the second currecy different that the first' == loads(response.data)['message']
 
@@ -56,7 +56,7 @@ class TestWebApiApp(TestCase):
                 'amount': 100.50
             }
         )
-        assert 200 == response.status_code
+        assert response.status_code == 200
         assert 'data' in loads(response.data)
         assert 'message' in loads(response.data)
         assert match(r'^Successfully exchanged', loads(response.data)['message'])
@@ -72,7 +72,7 @@ class TestWebApiApp(TestCase):
                 'amount': 100.50
             }
         )
-        assert 200 == response.status_code
+        assert response.status_code == 200
         assert 'data' in loads(response.data)
         assert 'message' in loads(response.data)
         assert match(r'^Successfully exchanged', loads(response.data)['message'])
@@ -104,7 +104,7 @@ class TestWebApiApp(TestCase):
                 'amount': 100.50
             }
         )
-        assert 200 == response.status_code
+        assert response.status_code == 200
         assert 'data' in loads(response.data)
         assert 'message' in loads(response.data)
         assert match(r'^Successfully exchanged', loads(response.data)['message'])
