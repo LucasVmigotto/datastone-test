@@ -15,7 +15,10 @@ from controllers.exchange import Exchange
 app = Flask(__name__)
 
 # Create REDIS connection
-redis = redis.Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'))
+redis = redis.Redis(
+    host=config('REDIS_HOST', default='localhost'),
+    port=config('REDIS_PORT', default=6379)
+)
 
 if redis.get('exchange:latest') is None:  # pragma: no cover
     redis.set('exchange:latest', 0)
