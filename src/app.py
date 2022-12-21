@@ -15,7 +15,13 @@ from controllers.exchange import Exchange
 app = Flask(__name__)
 
 # Create REDIS connection
-redis = redis.Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'))
+redis = redis.Redis(
+    host=config('REDIS_HOST', default='localhost'),
+    port=config('REDIS_PORT', default=6379)
+)
+
+if redis.get('exchange:latest') is None:  # pragma: no cover
+    redis.set('exchange:latest', 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,4 +37,4 @@ logger = logging.getLogger('ds-api')
 def movies():
     logger.info(f"Requested received from IP {request.remote_addr}")
     # Return instance class Exchange calling convert_money method
-    return Exchange(redis, config).convert_money(request.args)
+    return Exchange(redis, logger, config).convert_money(request.args)

@@ -110,13 +110,13 @@ The project was created in Python using Flask as framework para API RESTful. RED
 3. Run the tests cases
 
     ```bash
-    python -m coverage run -m unittest -v src/test/test_app.py
+    python -m coverage run -m unittest -v src/test_app.py
     ```
 
     * Collect code coverage
 
         ```bash
-        python -m coverage run -m unittest -v src/test/test_app.py
+        python -m coverage run -m unittest -v src/test_app.py
         ```
 
     * Generate HTML with the code coverage info
@@ -128,7 +128,7 @@ The project was created in Python using Flask as framework para API RESTful. RED
     * One liner
 
         ```bash
-        python -m coverage run -m unittest -v src/test/test_app.py && python -m coverage html
+        python -m coverage run -m unittest -v src/test_app.py && python -m coverage html
         ```
 
 ## Canveats

@@ -11,7 +11,7 @@ from flask import jsonify
 
 class Exchange:
 
-    def __init__(self, redis, config):
+    def __init__(self, redis, logger, config):
         """
         Contructor method
 
@@ -20,6 +20,7 @@ class Exchange:
             config (dict): Dictonary with env vars values
         """
         self.__redis = redis
+        self.__logger = logger
         self.__config = config
         self.__symbols = ('USD', 'BRL', 'EUR', 'BTC')
         self.__expected_paramentes = ('to', 'from', 'amount')
@@ -42,9 +43,9 @@ class Exchange:
             },
             headers={'apikey': self.__config('EXCHANGE_API_KEY')}
         )
-
         # If request fails, raise exception
         if response.status_code != 200:
+            self.__logger.error(f"Request failed with code {response.status_code}: {response.json()}")
             raise Exception('Request to 3rd party could not be successfully completed')
         response_json = response.json()
 
@@ -120,5 +121,5 @@ class Exchange:
                 'data': converted_value
             }), 200
         except Exception as e:
-            print(e)
+            self.__logger.exception(f"Exception: {e}")
             return jsonify({'message': 'Internal server error'}), 500
