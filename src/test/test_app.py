@@ -51,3 +51,18 @@ class TestWebApiApp(TestCase):
         assert 200 == response.status_code
         assert 'data' in loads(response.data)
         assert 'message' in loads(response.data)
+        assert match(r'^Successfully exchanged', loads(response.data)['message'])
+
+    def test_convert_usd_to_brl(self):
+        response = self.app.post(
+            '/convert',
+            query_string={
+                'from': 'USD',
+                'to': 'BRL',
+                'amount': 100.50
+            }
+        )
+        assert 200 == response.status_code
+        assert 'data' in loads(response.data)
+        assert 'message' in loads(response.data)
+        assert match(r'^Successfully exchanged', loads(response.data)['message'])
