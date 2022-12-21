@@ -34,4 +34,4 @@ logger = logging.getLogger('ds-api')
 def movies():
     logger.info(f"Requested received from IP {request.remote_addr}")
     # Return instance class Exchange calling convert_money method
-    return Exchange(redis, config).convert_money(request.args)
+    return Exchange(redis, logger, config).convert_money(request.args)
