@@ -4,6 +4,7 @@ __author__ = "Lucas Vidor Migotto"
 __date__ = "$Dez 20, 2022 12:57:00 PM$"
 
 # Imports
+import logging
 import redis
 from flask import Flask
 from flask import request
@@ -16,9 +17,18 @@ app = Flask(__name__)
 # Create REDIS connection
 redis = redis.Redis(host=config('REDIS_HOST'), port=config('REDIS_PORT'))
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s][%(levelname)s]: %(message)s',
+    filemode='a',
+    filename='ds-api.log'
+)
+logger = logging.getLogger('ds-api')
+
 
 # Route the POST /convert endpoint
 @app.route('/convert', methods=['POST'])
 def movies():
+    logger.info(f"Requested received from IP {request.remote_addr}")
     # Return instance class Exchange calling convert_money method
     return Exchange(redis, config).convert_money(request.args)
